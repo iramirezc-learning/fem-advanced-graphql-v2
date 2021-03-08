@@ -1,0 +1,24 @@
+{
+  "name": "fem-advanced-graphql-v2",
+  "version": "1.0.0",
+  "description": "This is my personal repository for the course [Advanced GraphQL (v2)](https://frontendmasters.com/courses/advanced-graphql-v2/) hosted by [FrontEnd Masters](https://frontendmasters.com/).",
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write \"packages/**/*.js\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iramirezc-learning/fem-advanced-graphql-v2.git"
+  },
+  "keywords": [],
+  "author": "Isaac Ramirez <iramirezc@live.com.mx>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iramirezc-learning/fem-advanced-graphql-v2/issues"
+  },
+  "homepage": "https://github.com/iramirezc-learning/fem-advanced-graphql-v2#readme",
+  "dependencies": {
+    "prettier": "^2.2.1"
+  }
+}
