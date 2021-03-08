@@ -100,5 +100,4 @@ module.exports = gql`
     signup(input: SignupInput!): AuthUser!
     signin(input: SigninInput!): AuthUser!
   }
-
 `

@@ -1,9 +1,9 @@
-const {ApolloServer} = require('apollo-server')
+const { ApolloServer } = require('apollo-server')
 const { createTestClient } = require('apollo-server-testing')
 const typeDefs = require('../src/typedefs')
 const resolvers = require('../src/resolvers')
 
-const createTestServer = ctx => {
+const createTestServer = (ctx) => {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
