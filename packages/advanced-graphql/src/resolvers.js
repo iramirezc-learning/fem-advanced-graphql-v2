@@ -1,10 +1,13 @@
+const { PubSub, withFilter } = require('apollo-server')
 const { authenticated, authorized } = require('./auth')
-const NEW_POST = 'NEW_POST'
+const { NEW_POST_EVENT } = require('./events')
+
+const pubSub = new PubSub()
 
 /**
  * Anything Query / Mutation resolver
  * using a user for a DB query
- * requires user authenication
+ * requires user authentication
  */
 module.exports = {
   Query: {
@@ -36,6 +39,9 @@ module.exports = {
         likes: 0,
         views: 0
       })
+
+      pubSub.publish(NEW_POST_EVENT, { newPost: post })
+
       return post
     }),
     updateMe: authenticated((_, { input }, { user, models }) => {
@@ -77,6 +83,18 @@ module.exports = {
 
       const token = createToken(user)
       return { token, user }
+    }
+  },
+  Subscription: {
+    newPost: {
+      subscribe: authenticated(
+        withFilter(
+          () => pubSub.asyncIterator(NEW_POST_EVENT),
+          (payload, variables) => {
+            return payload.newPost.author === variables.input.author
+          }
+        )
+      )
     }
   },
   User: {

@@ -84,6 +84,10 @@ module.exports = gql`
     password: String!
   }
 
+  input NewPostSubscriptionInput {
+    author: String!
+  }
+
   type Query {
     me: User!
     posts: [Post]!
@@ -99,5 +103,9 @@ module.exports = gql`
     invite(input: InviteInput!): Invite!
     signup(input: SignupInput!): AuthUser!
     signin(input: SigninInput!): AuthUser!
+  }
+
+  type Subscription {
+    newPost(input: NewPostSubscriptionInput!): Post!
   }
 `
