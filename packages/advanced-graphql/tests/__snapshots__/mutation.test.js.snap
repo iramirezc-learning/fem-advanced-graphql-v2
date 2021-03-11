@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mutations updateSettings 1`] = `
+Object {
+  "data": Object {
+    "updateSettings": Object {
+      "emailNotifications": true,
+      "id": "1",
+      "pushNotifications": true,
+      "theme": "DARK",
+      "user": Object {
+        "email": "user@example.com",
+        "id": "1",
+      },
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
