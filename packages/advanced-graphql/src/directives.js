@@ -65,14 +65,20 @@ class FormatDateDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field) {
     const resolver = field.resolve || defaultFieldResolver
 
-    field.resolve = (root, args, ctx, info) => {
-      const { createdAt, ...newRoot } = root
+    field.args.push({
+      type: GraphQLString,
+      name: 'format'
+    })
+
+    field.resolve = (root, { format, ...restArgs }, ctx, info) => {
+      const { createdAt, ...restRoot } = root
 
       if (createdAt) {
-        newRoot.createdAt = formatDate(createdAt, 'Ppp')
+        const { format: formatSchema } = this.args
+        restRoot.createdAt = formatDate(createdAt, format || formatSchema)
       }
 
-      return resolver.call(this, newRoot, args, ctx, info)
+      return resolver.call(this, restRoot, restArgs, ctx, info)
     }
   }
 }

@@ -13,7 +13,7 @@ module.exports = gql`
   }
 
   directive @log(message: String = "Default Logger") on FIELD_DEFINITION
-  directive @formatDate on FIELD_DEFINITION
+  directive @formatDate(format: String = "Ppp") on FIELD_DEFINITION
 
   type User {
     id: ID! @log(message: "User Logger")
@@ -35,7 +35,7 @@ module.exports = gql`
     id: ID!
     message: String!
     author: User!
-    createdAt: String! @formatDate
+    createdAt: String! @formatDate(format: "PPpp")
     likes: Int!
     views: Int!
   }
