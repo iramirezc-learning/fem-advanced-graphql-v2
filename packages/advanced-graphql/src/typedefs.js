@@ -13,13 +13,14 @@ module.exports = gql`
   }
 
   directive @log(message: String = "Default Logger") on FIELD_DEFINITION
+  directive @formatDate on FIELD_DEFINITION
 
   type User {
     id: ID! @log(message: "User Logger")
     email: String!
     avatar: String!
     verified: Boolean!
-    createdAt: String!
+    createdAt: String! @formatDate
     posts: [Post]!
     role: Role!
     settings: Settings!
@@ -34,7 +35,7 @@ module.exports = gql`
     id: ID!
     message: String!
     author: User!
-    createdAt: String!
+    createdAt: String! @formatDate
     likes: Int!
     views: Int!
   }
@@ -50,7 +51,7 @@ module.exports = gql`
   type Invite {
     email: String!
     from: User!
-    createdAt: String!
+    createdAt: String! @formatDate
     role: Role!
   }
 

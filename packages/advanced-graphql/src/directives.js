@@ -4,8 +4,6 @@ const { formatDate } = require('./utils')
 
 class LogDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field) {
-    console.log({ field })
-
     // Use current resolver or the default resolver
     const resolver = field.resolve || defaultFieldResolver
 
@@ -63,6 +61,23 @@ class LogDirective extends SchemaDirectiveVisitor {
   }
 }
 
+class FormatDateDirective extends SchemaDirectiveVisitor {
+  visitFieldDefinition(field) {
+    const resolver = field.resolve || defaultFieldResolver
+
+    field.resolve = (root, args, ctx, info) => {
+      const { createdAt, ...newRoot } = root
+
+      if (createdAt) {
+        newRoot.createdAt = formatDate(createdAt, 'Ppp')
+      }
+
+      return resolver.call(this, newRoot, args, ctx, info)
+    }
+  }
+}
+
 module.exports = {
-  LogDirective
+  LogDirective,
+  FormatDateDirective
 }
