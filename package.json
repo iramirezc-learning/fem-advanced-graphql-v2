@@ -6,7 +6,7 @@
   "scripts": {
     "format": "prettier --write \"packages/**/*.js\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:server": "cd packages/advanced-graphql && yarn start"
+    "start:server": "cd packages/advanced-graphql && yarn install && yarn start"
   },
   "repository": {
     "type": "git",
