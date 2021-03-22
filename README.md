@@ -2,8 +2,6 @@
 
 This is my personal repository for the course [Advanced GraphQL (v2)](https://frontendmasters.com/courses/advanced-graphql-v2/) hosted by [FrontEnd Masters](https://frontendmasters.com/).
 
-> 🚧 WIP Since Mar 2021
-
 ## Course Details
 
 Teacher
@@ -26,11 +24,11 @@ Started On
 
 Completed On
 
-> ???
+> Mar 22, 2021
 
 Total Pomodoro Time
 
-> ???
+> 10 hours, 25 minutes
 
 ## Course Resources
 
