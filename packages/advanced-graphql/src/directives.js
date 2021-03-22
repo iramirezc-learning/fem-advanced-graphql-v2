@@ -64,22 +64,19 @@ class LogDirective extends SchemaDirectiveVisitor {
 class FormatDateDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field) {
     const resolver = field.resolve || defaultFieldResolver
+    const { format: defaultFormat } = this.args
 
     field.args.push({
       type: GraphQLString,
       name: 'format'
     })
 
-    field.resolve = (root, { format, ...restArgs }, ctx, info) => {
-      const { createdAt, ...restRoot } = root
-
-      if (createdAt) {
-        const { format: formatSchema } = this.args
-        restRoot.createdAt = formatDate(createdAt, format || formatSchema)
-      }
-
-      return resolver.call(this, restRoot, restArgs, ctx, info)
+    field.resolve = async (root, { format, ...args }, ctx, info) => {
+      const result = await resolver.call(this, root, args, ctx, info)
+      return formatDate(result, format || defaultFormat)
     }
+
+    field.type = GraphQLString
   }
 }
 
