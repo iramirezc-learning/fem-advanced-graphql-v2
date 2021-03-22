@@ -12,8 +12,9 @@ module.exports = gql`
     GUEST
   }
 
-  directive @log(message: String = "Default Logger") on FIELD_DEFINITION
+  directive @auth(role: String = "ADMIN") on FIELD_DEFINITION
   directive @formatDate(format: String = "Ppp") on FIELD_DEFINITION
+  directive @log(message: String = "Default Logger") on FIELD_DEFINITION
 
   type User {
     id: ID! @log(message: "User Logger")
@@ -22,7 +23,7 @@ module.exports = gql`
     verified: Boolean!
     createdAt: String! @formatDate
     posts: [Post]!
-    role: Role!
+    role: Role! @auth
     settings: Settings!
   }
 

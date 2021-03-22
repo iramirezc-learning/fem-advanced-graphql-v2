@@ -83,7 +83,27 @@ class FormatDateDirective extends SchemaDirectiveVisitor {
   }
 }
 
+class AuthDirective extends SchemaDirectiveVisitor {
+  visitFieldDefinition(field) {
+    const resolver = field.resolve || defaultFieldResolver
+
+    field.resolve = (root, args, ctx, info) => {
+      const { role } = this.args
+
+      if (ctx && ctx.user && ctx.user.role !== role) {
+        // In a real app I wouldn't reveal the current user role
+        throw new Error(
+          `Unauthorized field '${field.name}' for user role: ${ctx.user.role}`
+        )
+      }
+
+      return resolver.call(this, root, args, ctx, info)
+    }
+  }
+}
+
 module.exports = {
   LogDirective,
-  FormatDateDirective
+  FormatDateDirective,
+  AuthDirective
 }
