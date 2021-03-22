@@ -2,7 +2,8 @@ const { ApolloServer } = require('apollo-server')
 const typeDefs = require('./typedefs')
 const resolvers = require('./resolvers')
 const {
-  AuthDirective,
+  AuthenticationDirective,
+  AuthorizationDirective,
   FormatDateDirective,
   LogDirective
 } = require('./directives')
@@ -13,7 +14,8 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   schemaDirectives: {
-    auth: AuthDirective,
+    authenticated: AuthenticationDirective,
+    authorized: AuthorizationDirective,
     formatDate: FormatDateDirective,
     log: LogDirective
   },

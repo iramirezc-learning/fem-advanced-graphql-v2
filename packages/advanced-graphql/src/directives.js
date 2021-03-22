@@ -1,4 +1,4 @@
-const { SchemaDirectiveVisitor } = require('apollo-server')
+const { SchemaDirectiveVisitor, AuthenticationError } = require('apollo-server')
 const { defaultFieldResolver, GraphQLString } = require('graphql')
 const { formatDate } = require('./utils')
 
@@ -80,16 +80,29 @@ class FormatDateDirective extends SchemaDirectiveVisitor {
   }
 }
 
-class AuthDirective extends SchemaDirectiveVisitor {
+class AuthenticationDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field) {
     const resolver = field.resolve || defaultFieldResolver
 
     field.resolve = (root, args, ctx, info) => {
-      const { role } = this.args
+      if (!ctx.user) {
+        throw new AuthenticationError('Are you logged in?')
+      }
 
+      return resolver.call(this, root, args, ctx, info)
+    }
+  }
+}
+
+class AuthorizationDirective extends SchemaDirectiveVisitor {
+  visitFieldDefinition(field) {
+    const resolver = field.resolve || defaultFieldResolver
+    const { role } = this.args
+
+    field.resolve = (root, args, ctx, info) => {
       if (ctx && ctx.user && ctx.user.role !== role) {
         // In a real app I wouldn't reveal the current user role
-        throw new Error(
+        throw new AuthenticationError(
           `Unauthorized field '${field.name}' for user role: ${ctx.user.role}`
         )
       }
@@ -100,7 +113,8 @@ class AuthDirective extends SchemaDirectiveVisitor {
 }
 
 module.exports = {
+  AuthenticationDirective,
+  AuthorizationDirective,
   LogDirective,
-  FormatDateDirective,
-  AuthDirective
+  FormatDateDirective
 }
